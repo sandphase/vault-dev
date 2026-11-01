@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  titan-vault:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: titan-vault
+    ports:
+      - "8200:8200"
+    volumes:
+      # Montamos un directorio para que la base de datos y la llave no se pierdan al reiniciar el contenedor
+      - ./vault-data:/app/data
+    environment:
+      - VAULT_DATA_DIR=/app/data
+      # Set a long random value for anything that is not a laptop:
+      #   VAULT_ROOT_TOKEN
+      # Optional machine token (read): VAULT_APP_TOKEN
+      # Optional trap (off by default): TITAN_INJECT_HONEYTOKEN / TITAN_HONEYTOKEN_VALUE
+    restart: unless-stopped

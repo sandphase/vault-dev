@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+node_modules/
+admin-ui/dist/
+admin-ui/node_modules/
+vault.db
+vault.salt
+vault.verifier
+vault.verifier.tmp
+vault_audit.log
+vault-data/
+.env
+.env.*
+!.env.example
