@@ -32,7 +32,15 @@ curl -sS -H "x-vault-token: $TOKEN" http://localhost:8200/secret/data/encuesta-p
 }
 ```
 
-`data.value` is a JSON string; `JSON.parse` it. Send `x-vault-public-key` and the same field is the hybrid payload from [SPEC.md](SPEC.md). [`titan-vault-node`](https://www.npmjs.com/package/titan-vault-node) decrypts that payload. It reads `DATABASE_URL` with `TitanVault.config.get`, keeps password fields for the database hooks, and throws if the vault does not answer. The trap stays off unless `TITAN_INJECT_HONEYTOKEN` and `TITAN_HONEYTOKEN_VALUE` are set; the SDK then sends that value to `GET /sys/recovery`.
+`data.value` is a JSON string; `JSON.parse` it. Send `x-vault-public-key` and the same field is the hybrid payload from [SPEC.md](SPEC.md).
+
+A Node app needs the client. Install it in that project:
+
+```bash
+npm install titan-vault-node
+```
+
+[`titan-vault-node`](https://www.npmjs.com/package/titan-vault-node) decrypts the payload. It reads `DATABASE_URL` with `TitanVault.config.get`, keeps password fields for the database hooks, and throws if the vault does not answer. The trap stays off unless `TITAN_INJECT_HONEYTOKEN` and `TITAN_HONEYTOKEN_VALUE` are set; the SDK then sends that value to `GET /sys/recovery`. Load it before the rest of the app. The package README shows `armParanoiaMode`.
 
 Not a SaaS. Not a cluster. Not HashiCorp. If you lose the master password, the secret values are gone. Paths and token policies in `vault.db` stay readable. See [SECURITY.md](SECURITY.md).
 
